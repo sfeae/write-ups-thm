@@ -1,0 +1,63 @@
+#challenge 1 - rick & morty challenge
+
+Name: Rick & Morty
+Category: Web Exploitation
+Difficulty: Easy
+
+#note
+#This is my first CTF write‑up, so I apologize if it is not perfectly structured.
+
+Problem Description:
+This Rick and Morty-themed challenge, requires to exploit a web server and find three ingredients to help Rick make his potion and transform himself back into a human from a pickle.
+
+Step by step:
+1. As a beginner, I started by exploring the web server using the TryHackMe machine and browser.
+2. After accessing the provided IP address, the first step in any web challenge is to inspect the page source.
+
+While inspecting the page source, I found an HTML comment that revealed a username:
+
+<!--
+Note to self, remember username!
+Username: R1ckRul3s
+-->
+
+3. In web challenges, theres a few common files directory that are build in:
+/login.php
+/assests
+/robots.txt
+/index.html
+/auth.php
+
+4. i checked one by one and found "/login.php" page and "/robots.txt" page which contains a suspicious string (where i thought it could be a password) : Wubbalubbadubdub
+5. Using the credentials obtained earlier a successful authentication granted.
+6. After login, a page with a command execution was available. Using "la" command to see other files directory.
+
+Sup3rS3cretPickl3Ingred.txt (suspicious file)
+assets
+clue.txt
+denied.php
+index.html
+login.php
+portal.php
+robots.txt
+
+[ first ingredient ]
+7. using "less" command to see the content of the file, this revealed the first ingredient.
+why not cat? cat command was disable so i need to find alternative command
+
+[ second ingredient ]
+8. Next, I checked clue.txt, which hinted to look around the filesystem. 
+9. Then, "ls /home" which listed the second ingredients files.
+total 12 
+drwxrwxrwx 2 root root 4096 Feb 10 2019 . 
+drwxr-xr-x 4 root root 4096 Feb 10 2019 .. 
+-rwxrwxrwx 1 root root 13 Feb 10 2019 second ingredients
+
+10. Using the same method as before, I read the file and obtained the second ingredient.
+
+[ final ingredient ]
+11. To locate the final ingredient, sudo permissions were used "sudo -l".
+This revealed that certain commands could be executed with elevated privileges without a password.
+"(ALL) NOPASSWD: /bin/ls"
+
+12. Using the "/root" directory and the final ingredient file was accessed, revealing the last ingredient required for Rick’s potion.
