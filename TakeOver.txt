@@ -1,0 +1,29 @@
+#challenge TakeOver
+#This challenge revolves around subdomain enumeration.
+# credit: https://enescayvarli.medium.com/tryhackme-takeover-walkthrough-584d2607288d
+as a beginner enumeration is really confusing
+thanks to the owner above, i managed to solve it
+
+#first step
+1. nano /etc/hosts add machine ip provided by thm (futurevera.thm)
+2. then i download seclists 
+(my first time usng fuzzing) 
+3. using the command  "$ ffuf -w /usr/share/seclists/Discovery/Web-Content/common.txt -H "Host: FUZZ.futurevera.thm" -u https://10.48.171.156 -fs 4605 -c"
+to get the subdomain under the futurevera.thm
+
+4. from the fuzzing we found a few subdomain: 
+blog [Status: 200, Size: 3838, Words: 1326, Lines: 81, Duration: 106ms] 
+Support [Status: 200, Size: 1522, Words: 367, Lines: 34, Duration: 122ms] 
+Blog [Status: 200, Size: 3838, Words: 1326, Lines: 81, Duration: 101ms] 
+support [Status: 200, Size: 1522, Words: 367, Lines: 34, Duration: 114ms]
+
+5. add it to the /etc/hosts 
+- blog.futurevera.thm
+- support.futurevera.thm
+
+6. access it and explore. (hint: check on ca) 
+7. this where i found 
+"DNS Name: secrethelpdesk934752.support.futurevera.thm"
+
+8. add that to the /etc/hosts then try to access it 
+9. boom flag !
